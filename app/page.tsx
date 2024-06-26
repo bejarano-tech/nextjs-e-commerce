@@ -13,7 +13,6 @@ export default function Home() {
   const [visibleCount, setVisibleCount] = useState<number>(INITIAL_PRODUCT_VISIBLE_COUNT);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
-  
 
   const fetchData = async () => {
     try {
