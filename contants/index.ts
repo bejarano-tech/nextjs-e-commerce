@@ -1,0 +1,2 @@
+export const INITIAL_PRODUCT_VISIBLE_COUNT = 3
+export const PRODUCT_VISIBLE_COUNT = 6
