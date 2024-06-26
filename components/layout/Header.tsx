@@ -2,8 +2,12 @@
 import styled from 'styled-components';
 import { FaShoppingCart, FaSearch } from 'react-icons/fa';
 import Image from 'next/image';
+import { useCart } from '@/context/CartContext';
 
 export const Header = () => {
+  const { cart } = useCart();
+  const totalItems = cart.items.reduce((acc, item) => acc + item.quantity, 0);
+
   return (
     <HeaderContainer>
       <Image src="/somnio.svg" alt='Somnio Logo' height={80} width={150}  />
@@ -15,6 +19,7 @@ export const Header = () => {
       </SearchContainer>
       <CartIcon>
         <FaShoppingCart size={40} color='#FFFFFF'/>
+        {totalItems > 0 ? <ItemCount>{totalItems}</ItemCount> : null}
       </CartIcon>
     </HeaderContainer>
   );
@@ -34,15 +39,10 @@ const HeaderContainer = styled.header`
   }
 `;
 
-const Logo = styled.div`
-  grid-column: 1 / 2;
-  font-size: 24px;
-  font-weight: bold;
-`;
-
 const CartIcon = styled.div`
   grid-column: 3 / 4;
   justify-self: end;
+  position: relative;
 
   @media (max-width: 767px) {
     grid-column: 2 / 3;
@@ -81,4 +81,15 @@ const SearchIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const ItemCount = styled.span`
+  position: absolute;
+  left: -10px;
+  bottom: -10px;
+  background-color: #B4B4B4;
+  border-radius: 50%;
+  border: 1px solid #9DA0A4;
+  padding: 4px 8px;
+  font-size: 14px;
 `;

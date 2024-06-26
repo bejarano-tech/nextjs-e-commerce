@@ -1,3 +1,4 @@
+import { useCart } from '@/context/CartContext';
 import { Product } from '@/interfaces';
 import Image from 'next/image'
 import styled from "styled-components";
@@ -12,6 +13,12 @@ interface PriceTagProps {
 }
 
 export const ProductImage = ({product, index}: ProductImageProps) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart({ id: product.id, title: product.title, price: product.price, quantity: 1 });
+  };
+
   return (
     <ImageContainer>
     <ProductImageStyled>
@@ -26,7 +33,7 @@ export const ProductImage = ({product, index}: ProductImageProps) => {
       />
     </ProductImageStyled>
     <PriceTag position={index} >{`USD ${product.price}`}</PriceTag>
-    <AddToCartButton>+</AddToCartButton>
+    <AddToCartButton onClick={handleAddToCart}>+</AddToCartButton>
   </ImageContainer>
   )
 }
