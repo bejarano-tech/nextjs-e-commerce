@@ -39,8 +39,7 @@ export const CartTable = ({cart}: CartTableProps) => {
                 <ActionButton onClick={() => decrementItem(item.id)}>
                   -
                 </ActionButton>
-                <ActionButton onClick={() => removeFromCart(item.id)}>
-                  <HiddenTrashSpan>trash</HiddenTrashSpan>
+                <ActionButton aria-label='Remove item' onClick={() => removeFromCart(item.id)}>
                   <FaTrash />
                 </ActionButton>
               </ActionContainer>
@@ -130,7 +129,3 @@ const ActionButton = styled.button`
 const ActionContainer = styled.div`
   display: flex;
 `;
-
-const HiddenTrashSpan = styled.span`
-  display: hidden;
-`

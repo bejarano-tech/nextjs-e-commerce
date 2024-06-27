@@ -54,7 +54,7 @@ describe('CartTable', () => {
 
   it('calls removeFromCart when the remove button is clicked', () => {
     render(<CartTable cart={mockCart} />);
-    const removeButtons = screen.getAllByRole('button', { name: /trash/i });
+    const removeButtons = screen.getAllByLabelText('Remove item');
     fireEvent.click(removeButtons[0]);
     expect(removeFromCart).toHaveBeenCalledWith("1");
   });
