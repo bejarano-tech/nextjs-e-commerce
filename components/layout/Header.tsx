@@ -4,23 +4,39 @@ import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
+import { useSearch } from "@/context/SearchContext";
 
 interface HeaderProps {
   showSearch?: boolean;
 }
 
-export const Header = ({ showSearch= true }: HeaderProps) => {
+export const Header = ({ showSearch = true }: HeaderProps) => {
   const { cart } = useCart();
+  const { searchTerm, setSearchTerm } = useSearch();
   const totalItems = cart.items.reduce((acc, item) => acc + item.quantity, 0);
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
 
   return (
     <HeaderContainer>
       <Link href="/">
-        <Image src="/somnio.svg" alt="Somnio Logo" height={80} width={150} priority />
+        <Image
+          src="/somnio.svg"
+          alt="Somnio Logo"
+          height={80}
+          width={150}
+          priority
+        />
       </Link>
       {showSearch ? (
         <SearchContainer>
-          <SearchInput placeholder="Buscar Productos ..." />
+          <SearchInput
+            placeholder="Buscar Productos ..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
           <SearchIcon>
             <FaSearch size={20} color="#88939D" />
           </SearchIcon>

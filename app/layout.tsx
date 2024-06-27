@@ -4,6 +4,7 @@ import "./globals.css";
 import StyledComponentsRegistry from "@/lib/registry";
 import { CartProvider } from "@/context/CartContext";
 import { ReactNode } from "react";
+import { SearchProvider } from "@/context/SearchContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <StyledComponentsRegistry>
           <CartProvider>
-            {children}
+            <SearchProvider>
+              {children}
+            </SearchProvider>
           </CartProvider>
         </StyledComponentsRegistry>
       </body>
