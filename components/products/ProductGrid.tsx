@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { ProductItem } from './ProductItem';
 import { Product } from '@/interfaces';
@@ -9,7 +8,7 @@ interface ProductGridProps {
 
 export const ProductGrid = ({ products }: ProductGridProps) => {
   return (
-    <GridContainer>
+    <GridContainer role="grid">
       {products?.map((product, index) => (
         <ProductItem key={product.id} product={product} index={index} />
       ))}

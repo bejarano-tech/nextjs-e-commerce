@@ -1,5 +1,5 @@
 "use client"
-import { createContext, useContext, useReducer, useEffect, ReactNode, useState } from 'react';
+import { createContext, useContext, useReducer, useEffect, ReactNode, useState, FC } from 'react';
 
 interface CartItem {
   id: string;
@@ -72,7 +72,7 @@ interface CartProviderProps {
   children: ReactNode
 }
 
-export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
+export const CartProvider: FC<CartProviderProps> = ({ children }) => {
   const [cart, dispatch] = useReducer(cartReducer, initialCartState);
   const [loading, setLoading] = useState(true)
 

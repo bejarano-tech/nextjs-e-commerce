@@ -1,9 +1,10 @@
 import { Header } from "@/components/layout/Header";
+import { ReactNode } from "react";
 
 export default function HomeLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <>
