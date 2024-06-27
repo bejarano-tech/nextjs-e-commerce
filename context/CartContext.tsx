@@ -1,5 +1,5 @@
 "use client"
-import { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useReducer, useEffect, ReactNode, useState } from 'react';
 
 interface CartItem {
   id: string;
@@ -15,6 +15,9 @@ interface CartState {
 interface CartContextProps {
   cart: CartState;
   addToCart: (product: CartItem) => void;
+  removeFromCart: (productId: string) => void;
+  decrementItem: (productId: string) => void;
+  loading: boolean;
 }
 
 const initialCartState: CartState = {
@@ -26,7 +29,6 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 const cartReducer = (state: CartState, action: any): CartState => {
   switch (action.type) {
     case 'INITIALIZE_CART':
-      console.log(action.payload.items)
       return {
         ...state,
         items: action.payload.items
@@ -47,6 +49,20 @@ const cartReducer = (state: CartState, action: any): CartState => {
         ...state,
         items: [...state.items, { ...action.payload, quantity: 1 }]
       };
+    case 'REMOVE_FROM_CART':
+      return {
+        ...state,
+        items: state.items.filter(item => item.id !== action.payload)
+      };
+    case 'DECREMENT_ITEM':
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.id === action.payload
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        ).filter(item => item.quantity > 0)
+      };
     default:
       return state;
   }
@@ -58,6 +74,7 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cart, dispatch] = useReducer(cartReducer, initialCartState);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
@@ -65,6 +82,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     if (storedCartParsed?.items.length > 0) {
       dispatch({ type: 'INITIALIZE_CART', payload: storedCartParsed });
     }
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -75,8 +93,16 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     dispatch({ type: 'ADD_TO_CART', payload: product });
   };
 
+  const removeFromCart = (productId: string) => {
+    dispatch({ type: 'REMOVE_FROM_CART', payload: productId });
+  };
+
+  const decrementItem = (productId: string) => {
+    dispatch({ type: 'DECREMENT_ITEM', payload: productId });
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, decrementItem, loading }}>
       {children}
     </CartContext.Provider>
   );

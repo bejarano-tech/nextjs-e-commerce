@@ -1,24 +1,33 @@
-"use client"
-import styled from 'styled-components';
-import { FaShoppingCart, FaSearch } from 'react-icons/fa';
-import Image from 'next/image';
-import { useCart } from '@/context/CartContext';
+"use client";
+import styled from "styled-components";
+import { FaShoppingCart, FaSearch } from "react-icons/fa";
+import Image from "next/image";
+import { useCart } from "@/context/CartContext";
+import Link from "next/link";
 
-export const Header = () => {
+interface HeaderProps {
+  showSearch?: boolean;
+}
+
+export const Header = ({ showSearch= true }: HeaderProps) => {
   const { cart } = useCart();
   const totalItems = cart.items.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <HeaderContainer>
-      <Image src="/somnio.svg" alt='Somnio Logo' height={80} width={150}  />
-      <SearchContainer>
-        <SearchInput placeholder="Buscar Productos ..." />
-        <SearchIcon>
-          <FaSearch size={20} color='#88939D'/>
-        </SearchIcon>
-      </SearchContainer>
-      <CartIcon>
-        <FaShoppingCart size={40} color='#FFFFFF'/>
+      <Link href="/">
+        <Image src="/somnio.svg" alt="Somnio Logo" height={80} width={150} priority />
+      </Link>
+      {showSearch ? (
+        <SearchContainer>
+          <SearchInput placeholder="Buscar Productos ..." />
+          <SearchIcon>
+            <FaSearch size={20} color="#88939D" />
+          </SearchIcon>
+        </SearchContainer>
+      ) : null}
+      <CartIcon href="/cart">
+        <FaShoppingCart size={40} color="#FFFFFF" />
         {totalItems > 0 ? <ItemCount>{totalItems}</ItemCount> : null}
       </CartIcon>
     </HeaderContainer>
@@ -30,7 +39,7 @@ const HeaderContainer = styled.header`
   grid-template-columns: 1fr 1.5fr 1fr;
   align-items: center;
   padding: 10px 20px;
-  background-color: #BBC0DD;
+  background-color: #bbc0dd;
 
   @media (max-width: 767px) {
     grid-template-columns: 1fr auto;
@@ -39,7 +48,7 @@ const HeaderContainer = styled.header`
   }
 `;
 
-const CartIcon = styled.div`
+const CartIcon = styled(Link)`
   grid-column: 3 / 4;
   justify-self: end;
   position: relative;
@@ -71,7 +80,7 @@ const SearchInput = styled.input`
   border: 1px solid #ccc;
   border-radius: 20px;
   &::placeholder {
-    color: #C3C8CD;
+    color: #c3c8cd;
   }
 `;
 
@@ -87,9 +96,9 @@ const ItemCount = styled.span`
   position: absolute;
   left: -10px;
   bottom: -10px;
-  background-color: #B4B4B4;
+  background-color: #b4b4b4;
   border-radius: 50%;
-  border: 1px solid #9DA0A4;
+  border: 1px solid #9da0a4;
   padding: 4px 8px;
   font-size: 14px;
 `;

@@ -9,7 +9,7 @@ interface ProductImageProps {
 }
 
 interface PriceTagProps {
-  position: number
+  $position: number
 }
 
 export const ProductImage = ({product, index}: ProductImageProps) => {
@@ -23,6 +23,7 @@ export const ProductImage = ({product, index}: ProductImageProps) => {
     <ImageContainer>
     <ProductImageStyled>
       <Image
+        priority
         src={product.image}
         alt={`Product Image ${product.title}`}
         sizes="300px"
@@ -32,7 +33,7 @@ export const ProductImage = ({product, index}: ProductImageProps) => {
         }}
       />
     </ProductImageStyled>
-    <PriceTag position={index} >{`USD ${product.price}`}</PriceTag>
+    <PriceTag $position={index} >{`USD ${product.price}`}</PriceTag>
     <AddToCartButton onClick={handleAddToCart}>+</AddToCartButton>
   </ImageContainer>
   )
@@ -46,6 +47,7 @@ const ProductImageStyled = styled.div`
   width: 100%;
   height: 350px;
   object-fit: cover;
+  position: relative;
 `;
 
 const PriceTag = styled.div<PriceTagProps>`
@@ -54,9 +56,9 @@ const PriceTag = styled.div<PriceTagProps>`
   right: 0px;
   height: 50px;
   background-color: ${(props) =>
-    props.position % 3 === 0
+    props.$position % 3 === 0
       ? '#908BC7'
-      : props.position % 3 === 1
+      : props.$position % 3 === 1
       ? '#95C3CA'
       : '#C5CA90'};
   color: #000;
